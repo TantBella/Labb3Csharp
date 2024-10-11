@@ -1,0 +1,39 @@
+﻿<Window x:Class="Labb3.GymClass"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Labb3"
+        mc:Ignorable="d"
+        Title="GymClass" Height="450" Width="800">
+    <Grid>
+       
+
+        <Grid >
+
+            <ListBox ItemsSource="{Binding AvailableSessions}" HorizontalContentAlignment="Center" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel Orientation="Horizontal" Margin="0,10,0,10" Cursor="Hand">
+                            <Button Content="{Binding Name}" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ListBox ItemsSource="{Binding AvailableSessions}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="10">
+                            <TextBlock Text="{Binding Name}" Width="100" />
+                            <TextBlock Text="{Binding StartTime, StringFormat='{}{0:HH:mm}'}" Width="70" />
+                            <TextBlock Text="{Binding Minutes}" Width="50" />
+                            <TextBlock Text=" minuter" Width="60" />
+                          
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+        </Grid>
+    </Grid>
+</Window>
