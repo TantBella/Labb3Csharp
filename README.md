@@ -3,8 +3,11 @@
 ## Del 1: Kravspecifikation
 Du ska skapa en bokningshanteringsapplikation för ett gym som tillåter användare
 att:
+
 • Boka träningspass.
+
 • Se en lista över tillgängliga pass.
+
 • Avboka pass.
 
 Användarna ska kunna söka efter träningspass baserat på tid och träningskategori.
