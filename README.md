@@ -16,8 +16,12 @@ textfält och listor.
 
 ### GUI-krav:
 • Ett fönster med en lista över tillgängliga pass.
+
+
 • En sökfunktion för att filtrera pass baserat på träningstyp och tid.
+
 • Knapp för att boka och avboka ett pass.
+
 • Bekräftelsemeddelande efter att en bokning gjorts eller avbokats.
 
 ## Del 2: Objektorienterad design
