@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using static Labb3.GymSessions;
 
 namespace Labb3
 {
@@ -9,10 +10,15 @@ namespace Labb3
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new GymModel();
+            try
+            {
+                DataContext = new GymSessions();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Något gick fel: {ex.Message}");
+            }
         }
-        private List<string> classes;
-
 
         public void Home_Button(object sender, RoutedEventArgs e)
         {
@@ -22,6 +28,8 @@ namespace Labb3
         public void ShowBookings_Button(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Här ska man få se de pass man bokat.");
+            AvailableSessionsList.Visibility = AvailableSessionsList.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            BookedSessionsList.Visibility = BookedSessionsList.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public void Search_Button(object sender, RoutedEventArgs e)
@@ -32,11 +40,25 @@ namespace Labb3
         private void Book_Button(object sender, RoutedEventArgs e)
         {
             Button clickedButton = sender as Button;
-            string sessionName = clickedButton.Content.ToString();
-            MessageBox.Show($"Du har valt {sessionName}-passet.");
+            var session = clickedButton.Tag as GymSessions.GymSession;
+            var currentUser = new GymSessions.User { Name = "David" };
+            if (session != null)
+            {
+                ((GymSessions)DataContext).BookSession(session, currentUser);
+                MessageBox.Show($"Du har bokat {session.Name}-passet.");
+            }
         }
 
-
-        public class Users { }
+        private void Cancel_Button(object sender, RoutedEventArgs e)
+        {
+            Button clickedButton = sender as Button;
+            var session = clickedButton.Tag as GymSessions.GymSession;
+            var currentUser = new GymSessions.User { Name = "Aktuell Användare" }; // Hämta verklig användare här
+            if (session != null)
+            {
+                ((GymSessions)DataContext).CancelSession(session, currentUser);
+                MessageBox.Show($"Du har avbokat {session.Name}-passet.");
+            }
+        }
     }
 }
