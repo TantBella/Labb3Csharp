@@ -12,7 +12,7 @@ namespace Labb3
         {
             if (value is bool isBooked)
             {
-                return !isBooked; // Om bokad, gör knappen inaktiverad
+                return !isBooked; 
             }
             return true;
         }

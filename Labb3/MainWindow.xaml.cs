@@ -22,10 +22,22 @@ namespace Labb3
 
         public void ShowBookings_Button(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show("Här ska man få se de pass man bokat.");
+            Button clickedButton = sender as Button;
             AvailableSessionsList.Visibility = AvailableSessionsList.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
             BookedSessionsList.Visibility = BookedSessionsList.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+
+            if (AvailableSessionsList.Visibility == Visibility.Visible)
+            {
+                clickedButton.Content = "Mina pass";
+                UserName.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                clickedButton.Content = "Visa alla pass";
+                UserName.Visibility = Visibility.Visible; 
+            }
         }
+
 
         public void Search_Button(object sender, RoutedEventArgs e)
         {
@@ -41,9 +53,15 @@ namespace Labb3
             {
                 if (!session.IsBooked)
                 {
+                    // Try to book the session
                     ((GymSessions)DataContext).BookSession(session, currentUser);
-                    session.IsBooked = true;
-                    MessageBox.Show($"Du har bokat {session.Name}-passet.");
+
+                    if (!session.IsFull)
+                    {
+                        MessageBox.Show($"Du har bokat {session.Name}-passet.");
+                        clickedButton.IsEnabled = false;
+                        clickedButton.Content = "Bokad";
+                    }
                 }
             }
         }
@@ -59,5 +77,6 @@ namespace Labb3
                 MessageBox.Show($"Du har avbokat {session.Name}-passet.");
             }
         }
+
     }
 }
