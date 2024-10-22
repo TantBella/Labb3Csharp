@@ -20,14 +20,9 @@ namespace Labb3
             }
         }
 
-        public void Home_Button(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Hem-knappen klickades.");
-        }
-
         public void ShowBookings_Button(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Här ska man få se de pass man bokat.");
+            //MessageBox.Show("Här ska man få se de pass man bokat.");
             AvailableSessionsList.Visibility = AvailableSessionsList.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
             BookedSessionsList.Visibility = BookedSessionsList.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
@@ -44,8 +39,12 @@ namespace Labb3
             var currentUser = new GymSessions.User { Name = "David" };
             if (session != null)
             {
-                ((GymSessions)DataContext).BookSession(session, currentUser);
-                MessageBox.Show($"Du har bokat {session.Name}-passet.");
+                if (!session.IsBooked)
+                {
+                    ((GymSessions)DataContext).BookSession(session, currentUser);
+                    session.IsBooked = true;
+                    MessageBox.Show($"Du har bokat {session.Name}-passet.");
+                }
             }
         }
 
@@ -53,7 +52,7 @@ namespace Labb3
         {
             Button clickedButton = sender as Button;
             var session = clickedButton.Tag as GymSessions.GymSession;
-            var currentUser = new GymSessions.User { Name = "Aktuell Användare" }; // Hämta verklig användare här
+            var currentUser = new GymSessions.User { Name = "David" }; 
             if (session != null)
             {
                 ((GymSessions)DataContext).CancelSession(session, currentUser);

@@ -54,7 +54,6 @@ namespace Labb3
         public void BookSession(GymSession session, User user)
         {
             session.AddParticipant(user);
-            AvailableSessions.Remove(session);
             BookedSessions.Add(session);
         }
 
@@ -81,15 +80,35 @@ namespace Labb3
             public int Minutes { get; set; }
             public List<User> Participants { get; set; } = new List<User>();
 
+            private bool _isBooked;
+            public bool IsBooked
+            {
+                get { return _isBooked; }
+                set
+                {
+                    _isBooked = value;
+                    OnPropertyChanged("IsBooked");
+                }
+            }
+
             public void AddParticipant(User user)
             {
                 Participants.Add(user);
+                IsBooked = true;
             }
 
             public void RemoveParticipant(User user)
             {
                 Participants.Remove(user);
+                IsBooked = false;
             }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+            protected void OnPropertyChanged(string propertyName)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+
         }
 
         public class User
