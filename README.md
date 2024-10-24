@@ -1,10 +1,9 @@
 # Labb 3, Bokningsapplikation med WPF
 
-<img src="[https://example.com/min-bild.jpg](https://github.com/TantBella/Labb3Csharp/blob/main/gym_start.png)" alt="Min bild" width="100"/>
 
 ![Bild på startsidan](https://github.com/TantBella/Labb3Csharp/blob/main/gym_start.png)
-![Bild på sökresultat](https://github.com/TantBella/Labb3Csharp/blob/main/search_result.png)
 ![Bild på mer info om ett specifikt pass](https://github.com/TantBella/Labb3Csharp/blob/main/more_info.png)
+![Bild på sökresultat](https://github.com/TantBella/Labb3Csharp/blob/main/search_result.png)
 ![Bild på "mina sidor" med bokade pass](https://github.com/TantBella/Labb3Csharp/blob/main/my_pages.png)
 
 
