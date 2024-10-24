@@ -87,18 +87,18 @@ namespace Labb3
                 new GymSession { Id = 2, Name = "Lätt Yoga", TimeOfDay = startTime[1], Minutes = 50, Category = categories[2], AvailableSlots = 12 - BookedSlots},
                 new GymSession { Id = 3, Name = "Core", TimeOfDay = startTime[2], Minutes = 60, Category = categories[1], AvailableSlots = 15 - BookedSlots },
                 new GymSession { Id = 4, Name = "Spinning", TimeOfDay = startTime[3], Minutes = 45, Category = categories[0], AvailableSlots = 20 - BookedSlots},
-                new GymSession { Id = 5, Name = "LunchYoga", TimeOfDay = startTime[4], Minutes = 30, Category = categories[0], AvailableSlots = 15 - BookedSlots},
-                new GymSession { Id = 6, Name = "Lunchträning", TimeOfDay = startTime[4], Minutes = 30, Category = categories[1], AvailableSlots = 10 - BookedSlots},
+                new GymSession { Id = 5, Name = "Lunch-Yoga", TimeOfDay = startTime[4], Minutes = 30, Category = categories[0], AvailableSlots = 15 - BookedSlots},
+                new GymSession { Id = 6, Name = "Lunch-Bodypump", TimeOfDay = startTime[4], Minutes = 30, Category = categories[1], AvailableSlots = 11 - BookedSlots},
                 new GymSession { Id = 7, Name = "Spinning", TimeOfDay = startTime[13], Minutes = 45, Category = categories[0], AvailableSlots = 20 - BookedSlots},
                 new GymSession { Id = 8, Name = "Core", TimeOfDay = startTime[14], Minutes = 60, Category = categories[1], AvailableSlots = 10 - BookedSlots},
                 new GymSession { Id = 9, Name = "Step", TimeOfDay = startTime[16], Minutes = 45, Category = categories[1], AvailableSlots = 15 - BookedSlots},
-                new GymSession { Id = 10, Name = "Spinning", TimeOfDay = startTime[23], Minutes = 45, Category = categories[0], AvailableSlots = 10 - BookedSlots},
-                new GymSession { Id = 11, Name = "PT", TimeOfDay = startTime[19], Minutes = 90, Category = categories[3], AvailableSlots = 1 - BookedSlots},
-                new GymSession { Id = 12, Name = "Spinning, intensiv", TimeOfDay = startTime[25], Minutes = 45, Category = categories[0], AvailableSlots = 20 - BookedSlots},
-                new GymSession { Id = 13, Name = "Yoga", TimeOfDay = startTime[26], Minutes = 50, Category = categories[2], AvailableSlots = 15 - BookedSlots},
+                new GymSession { Id = 10, Name = "Spinning", TimeOfDay = startTime[19], Minutes = 45, Category = categories[0], AvailableSlots = 10 - BookedSlots},
+                new GymSession { Id = 11, Name = "PT", TimeOfDay = startTime[20], Minutes = 90, Category = categories[3], AvailableSlots = 1 - BookedSlots},
+                new GymSession { Id = 12, Name = "Spinning, intensiv", TimeOfDay = startTime[20], Minutes = 45, Category = categories[0], AvailableSlots = 20 - BookedSlots},
+                new GymSession { Id = 13, Name = "Yoga", TimeOfDay = startTime[23], Minutes = 50, Category = categories[2], AvailableSlots = 15 - BookedSlots},
                 new GymSession { Id = 14, Name = "Gympa", TimeOfDay = startTime[25], Minutes = 60, Category = categories[1], AvailableSlots = 25 - BookedSlots},
-                new GymSession { Id = 15, Name = "Skivstång -Lätt", TimeOfDay = startTime[20], Minutes = 45, Category = categories[3], AvailableSlots = 20 - BookedSlots},
-                new GymSession { Id = 15, Name = "Skivstång", TimeOfDay = startTime[20], Minutes = 45, Category = categories[3], AvailableSlots = 20 - BookedSlots}
+                new GymSession { Id = 15, Name = "Skivstång -Lätt", TimeOfDay = startTime[25], Minutes = 45, Category = categories[3], AvailableSlots = 20 - BookedSlots},
+                new GymSession { Id = 15, Name = "Skivstång", TimeOfDay = startTime[26], Minutes = 45, Category = categories[3], AvailableSlots = 20 - BookedSlots}
             };
 
             BookedSessions = new ObservableCollection<GymSession>();
@@ -106,16 +106,9 @@ namespace Labb3
 
         public void BookSession(GymSession session, User user)
         {
-            if (!session.BookSlot())
-            {
-
-                MessageBox.Show("Passet är fullbokat.");
-           
-            }
-            else if (!session.IsBooked || session.BookSlot())
+            if (session.BookSlot())
             {
                 session.AddParticipant(user);
-                session.IsBooked = true; 
                 BookedSessions.Add(session);
                 OnPropertyChanged("BookedSessions");
             }
@@ -123,13 +116,11 @@ namespace Labb3
 
         public void CancelSession(GymSession session, User user)
         {
-            session.CancelSlot();
             session.RemoveParticipant(user);
+            session.CancelSlot();
             session.IsBooked = false;
             BookedSessions.Remove(session);
             OnPropertyChanged("BookedSessions");
-
-
             OnPropertyChanged("AvailableSessions");
         }
 
@@ -159,6 +150,14 @@ namespace Labb3
                 }
             }
 
+            public string ButtonContent
+            {
+                get
+                {
+                    return IsFull ? "Fullbokad" : IsBooked ? "Bokad" : "Boka pass";
+                }
+            }
+
             int BookedSlots { get; set; }
             public bool IsFull => AvailableSlots <= 0;
 
@@ -170,6 +169,7 @@ namespace Labb3
                 {
                     _isBooked = value;
                     OnPropertyChanged("IsBooked");
+                    OnPropertyChanged("ButtonContent");
                 }
             }
 
@@ -178,6 +178,7 @@ namespace Labb3
                 if (!IsFull)
                 {
                     AvailableSlots--;
+                    OnPropertyChanged("ButtonContent");
                     return true;
                 }
                 return false;
@@ -185,10 +186,9 @@ namespace Labb3
 
             public void CancelSlot()
             {
-                if (BookedSlots > 0)
-                {
                     AvailableSlots++;
-                }
+                    OnPropertyChanged("ButtonContent");
+                
             }
 
             public void AddParticipant(User user)

@@ -85,7 +85,13 @@
                         <GridViewColumn Header="Boka" Width="120" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate >
-                                    <Button Content="Boka pass" Click="Book_Button" Tag="{Binding}" Background="#FF68845E" FontFamily="Calibri" Foreground="#FFF7FFF7" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <Button Content="{Binding ButtonContent}" 
+                                            Click="Book_Button" Tag="{Binding}" 
+                                            Background="#FF68845E" 
+                                            FontFamily="Calibri"
+                                            Foreground="#FFF7FFF7" 
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

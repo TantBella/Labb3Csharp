@@ -36,13 +36,13 @@ namespace Labb3
             else
             {
                 clickedButton.Content = "Visa alla pass";
-                UserName.Visibility = Visibility.Visible; 
+                UserName.Visibility = Visibility.Visible;
             }
         }
 
         public void Search_Button(object sender, RoutedEventArgs e)
         {
-            string searchInput = SearchInput.Text; 
+            string searchInput = SearchInput.Text;
             if (string.IsNullOrWhiteSpace(searchInput))
             {
                 var gymSessions = ((GymSessions)DataContext).AvailableSessions;
@@ -55,9 +55,7 @@ namespace Labb3
                 var searchResult = searcher.SearchSessions(((GymSessions)DataContext).AvailableSessions, searchInput);
 
                 AvailableSessionsList.ItemsSource = searchResult;
-                //MessageBox.Show($"Sökningen hittade {searchResult.Count()} pass.");
                 ResetSearchButton.Visibility = searchResult.Any() ? Visibility.Visible : Visibility.Collapsed;
-
             }
         }
 
@@ -82,7 +80,7 @@ namespace Labb3
         {
             Button clickedButton = sender as Button;
             var session = clickedButton.Tag as GymSessions.GymSession;
-            var currentUser = new GymSessions.User { Name = "David" };
+            var currentUser = new GymSessions.User { Name = Name };
             if (session != null)
             {
                 if (!session.IsBooked)
@@ -93,7 +91,6 @@ namespace Labb3
                     {
                         MessageBox.Show($"Du har bokat {session.Name}-passet.");
                         clickedButton.IsEnabled = false;
-                        clickedButton.Content = "Bokad";
                     }
                 }
             }
@@ -103,7 +100,7 @@ namespace Labb3
         {
             Button clickedButton = sender as Button;
             var session = clickedButton.Tag as GymSessions.GymSession;
-            var currentUser = new GymSessions.User { Name = "David" };
+            var currentUser = new GymSessions.User { Name = Name };
 
             if (session != null)
             {
@@ -119,14 +116,14 @@ namespace Labb3
                         var button = FindBookedButton<Button>(container);
                         if (button != null && button.Tag == session)
                         {
-                            button.IsEnabled = true; 
-                            button.Content = "Boka pass"; 
+                            button.IsEnabled = true;
                         }
                     }
                 }
             }
         }
 
+        //ändra att det står bokad till boka på bokningsknappen
         private resetBooking FindBookedButton<resetBooking>(DependencyObject obj) where resetBooking : DependencyObject
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
@@ -138,12 +135,14 @@ namespace Labb3
                 {
                     resetBooking childOfChild = FindBookedButton<resetBooking>(child);
                     if (childOfChild != null)
-                        return childOfChild;
+                    return childOfChild;
                 }
             }
             return null;
         }
 
+
+        //Om man klickar på ett gympass namn får man ytterligare info om det
         private void More_Info(object sender, MouseButtonEventArgs e)
         {
             TextBlock moreInfo = sender as TextBlock;
@@ -180,7 +179,5 @@ namespace Labb3
                 }
             }
         }
-
-
     }
 }

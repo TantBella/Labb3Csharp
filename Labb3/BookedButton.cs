@@ -16,6 +16,7 @@ namespace Labb3
         {
             if (value is bool isBooked)
             {
+
                 return isBooked ? "Bokad" : "Boka";
             }
             return "Boka";
