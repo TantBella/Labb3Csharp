@@ -45,8 +45,7 @@
         <Grid Margin="10,120,10,10" Opacity="0.95">
             
             <!-- tillgängliga pass -->
-            <ListView x:Name="AvailableSessionsList" 
-                      ItemsSource="{Binding AvailableSessions}" 
+            <ListView x:Name="AvailableSessionsList" ItemsSource="{Binding AvailableSessions}" av:ItemsSource="{av:SampleData ItemCount=5}" 
                       AlternationCount="2" 
                       HorizontalAlignment="Center" Foreground="#FF04711A">
                 <ListView.View>
@@ -90,6 +89,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+
                     </GridView>
                 </ListView.View>
             </ListView>
