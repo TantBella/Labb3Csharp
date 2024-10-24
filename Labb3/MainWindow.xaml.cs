@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using static Labb3.GymSessions;
 
 namespace Labb3
@@ -70,12 +71,45 @@ namespace Labb3
         {
             Button clickedButton = sender as Button;
             var session = clickedButton.Tag as GymSessions.GymSession;
-            var currentUser = new GymSessions.User { Name = "David" }; 
+            var currentUser = new GymSessions.User { Name = "David" };
+
             if (session != null)
             {
+
                 ((GymSessions)DataContext).CancelSession(session, currentUser);
                 MessageBox.Show($"Du har avbokat {session.Name}-passet.");
+
+                foreach (var item in AvailableSessionsList.Items)
+                {
+                    var container = AvailableSessionsList.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
+                    if (container != null)
+                    {
+                        var button = FindBookedButton<Button>(container);
+                        if (button != null && button.Tag == session)
+                        {
+                            button.IsEnabled = true; 
+                            button.Content = "Boka pass"; 
+                        }
+                    }
+                }
             }
+        }
+
+        private resetBooking FindBookedButton<resetBooking>(DependencyObject obj) where resetBooking : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is resetBooking)
+                    return (resetBooking)child;
+                else
+                {
+                    resetBooking childOfChild = FindBookedButton<resetBooking>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
         }
 
     }

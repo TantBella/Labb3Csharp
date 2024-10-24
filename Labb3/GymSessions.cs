@@ -81,8 +81,8 @@ namespace Labb3
             AvailableSessions = new ObservableCollection<GymSession>
             {
                 new GymSession { Id = 1, Name = "PT", TimeOfDay = startTime[0], Minutes = 60, Category = categories[3], AvailableSlots = 10  - BookedSlots},
-                new GymSession { Id = 2, Name = "Yoga", TimeOfDay = startTime[1], Minutes = 50, Category = categories[1], AvailableSlots = 12 - BookedSlots},
-                new GymSession { Id = 3, Name = "Core", TimeOfDay = startTime[2], Minutes = 60, Category = categories[3], AvailableSlots = 15 - BookedSlots },
+                new GymSession { Id = 2, Name = "Yoga", TimeOfDay = startTime[1], Minutes = 50, Category = categories[2], AvailableSlots = 12 - BookedSlots},
+                new GymSession { Id = 3, Name = "Core", TimeOfDay = startTime[2], Minutes = 60, Category = categories[1], AvailableSlots = 15 - BookedSlots },
                 new GymSession { Id = 4, Name = "Spinning", TimeOfDay = startTime[3], Minutes = 45, Category = categories[0], AvailableSlots = 20 - BookedSlots}
             };
 
@@ -91,24 +91,37 @@ namespace Labb3
 
         public void BookSession(GymSession session, User user)
         {
-            if (session.BookSlot())
+            if (!session.BookSlot())
+            {
+
+                MessageBox.Show("Passet är fullbokat.");
+           
+            }
+            else if (!session.IsBooked || session.BookSlot())
             {
                 session.AddParticipant(user);
+                session.IsBooked = true; 
                 BookedSessions.Add(session);
                 OnPropertyChanged("BookedSessions");
             }
-            else
-            {
-                MessageBox.Show("Passet är fullbokat.");
-            }
+            //else
+            //{
+            //    session.AddParticipant(user);
+            //    BookedSessions.Add(session);
+            //    OnPropertyChanged("BookedSessions");
+            //}
         }
 
         public void CancelSession(GymSession session, User user)
         {
             session.CancelSlot();
             session.RemoveParticipant(user);
+            session.IsBooked = false;
             BookedSessions.Remove(session);
             OnPropertyChanged("BookedSessions");
+
+
+            OnPropertyChanged("AvailableSessions");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

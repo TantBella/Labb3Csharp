@@ -48,7 +48,7 @@
                         <GridViewColumn Header="Passnamn" DisplayMemberBinding="{Binding Name}" Width="200"/>
                         <GridViewColumn Header="Kategori" DisplayMemberBinding="{Binding Category.Name}" Width="100"/>
 
-                        <GridViewColumn Header="Starttid" DisplayMemberBinding="{Binding TimeOfDay}" Width="100" />
+                        <GridViewColumn Header="Starttid" DisplayMemberBinding="{Binding TimeOfDay, StringFormat={}{0:hh\\:mm}}" Width="100"/>
                         <GridViewColumn Header="Längd (min)" DisplayMemberBinding="{Binding Minutes}" Width="100"/>
                         <GridViewColumn Header="Boka" Width="120" >
                             <GridViewColumn.CellTemplate>
@@ -67,7 +67,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Passnamn" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                        <GridViewColumn Header="Starttid" DisplayMemberBinding="{Binding TimeOfDay}" Width="100"/>
+                        <GridViewColumn Header="Starttid" DisplayMemberBinding="{Binding TimeOfDay, StringFormat={}{0:hh\\:mm}}" Width="100"/>
                         <GridViewColumn Header="Längd (min)" DisplayMemberBinding="{Binding Minutes}" Width="100"/>
                         <GridViewColumn Header="Avboka" Width="120">
                             <GridViewColumn.CellTemplate>
