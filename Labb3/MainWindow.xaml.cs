@@ -69,7 +69,6 @@ namespace Labb3
             }
         }
 
-
         public void ResetSearch_Button(object sender, RoutedEventArgs e)
         {
             SearchInput.Text = string.Empty;
@@ -78,6 +77,43 @@ namespace Labb3
             AvailableSessionsList.ItemsSource = gymSessions;
             ResetSearchButton.Visibility = Visibility.Collapsed;
         }
+
+        private void More_Info(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock moreInfo = sender as TextBlock;
+            var session = moreInfo?.Tag as GymSessions.GymSession;
+
+            if (session != null)
+            {
+                string message = $"Passnamn: {session.Name}\n" +
+                                 $"Kategori: {session.Category.Name}\n" +
+                                 $"Starttid: {session.TimeOfDay:hh\\:mm}\n" +
+                                 $"Längd: {session.Minutes} minuter\n" +
+                                 $"Tillgängliga platser: {session.AvailableSlots}\n" +
+                                 $"Vil du boka passet?";
+
+                MessageBoxResult result = MessageBox.Show(message, "Passinformation", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    var currentUser = new GymSessions.User { Name = "David" };
+                    if (!session.IsBooked)
+                    {
+                        ((GymSessions)DataContext).BookSession(session, currentUser);
+
+                        if (!session.IsFull)
+                        {
+                            MessageBox.Show($"Du har bokat {session.Name}-passet.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Det här passet är redan bokat.");
+                    }
+                }
+            }
+        }
+
 
         private void Book_Button(object sender, RoutedEventArgs e)
         {

@@ -39,6 +39,7 @@ namespace Labb3
 
             var startTime = new[]
                     {
+                //0
                 new TimeSpan(9, 0, 0),
                 new TimeSpan(9, 30, 0),
                 new TimeSpan(10, 0, 0),
@@ -49,6 +50,7 @@ namespace Labb3
                 new TimeSpan(13, 0, 0),
                 new TimeSpan(14, 0, 0),
                 new TimeSpan(14, 30, 0),
+                //10
                 new TimeSpan(15, 0, 0),
                 new TimeSpan(15, 30, 0),
                 new TimeSpan(16, 0, 0),
@@ -59,6 +61,7 @@ namespace Labb3
                 new TimeSpan(17, 15, 0),
                 new TimeSpan(17, 30, 0),
                 new TimeSpan(17, 0, 0),
+                //20
                 new TimeSpan(18, 0, 0),
                 new TimeSpan(18, 30, 0),
                 new TimeSpan(18, 45, 0),
@@ -80,10 +83,22 @@ namespace Labb3
 
             AvailableSessions = new ObservableCollection<GymSession>
             {
-                new GymSession { Id = 1, Name = "PT", TimeOfDay = startTime[0], Minutes = 60, Category = categories[3], AvailableSlots = 10  - BookedSlots},
-                new GymSession { Id = 2, Name = "Yoga", TimeOfDay = startTime[1], Minutes = 50, Category = categories[2], AvailableSlots = 12 - BookedSlots},
+                new GymSession { Id = 1, Name = "PT", TimeOfDay = startTime[0], Minutes = 60, Category = categories[3], AvailableSlots = 1  - BookedSlots},
+                new GymSession { Id = 2, Name = "Lätt Yoga", TimeOfDay = startTime[1], Minutes = 50, Category = categories[2], AvailableSlots = 12 - BookedSlots},
                 new GymSession { Id = 3, Name = "Core", TimeOfDay = startTime[2], Minutes = 60, Category = categories[1], AvailableSlots = 15 - BookedSlots },
-                new GymSession { Id = 4, Name = "Spinning", TimeOfDay = startTime[3], Minutes = 45, Category = categories[0], AvailableSlots = 20 - BookedSlots}
+                new GymSession { Id = 4, Name = "Spinning", TimeOfDay = startTime[3], Minutes = 45, Category = categories[0], AvailableSlots = 20 - BookedSlots},
+                new GymSession { Id = 5, Name = "LunchYoga", TimeOfDay = startTime[4], Minutes = 30, Category = categories[0], AvailableSlots = 15 - BookedSlots},
+                new GymSession { Id = 6, Name = "Lunchträning", TimeOfDay = startTime[4], Minutes = 30, Category = categories[1], AvailableSlots = 10 - BookedSlots},
+                new GymSession { Id = 7, Name = "Spinning", TimeOfDay = startTime[13], Minutes = 45, Category = categories[0], AvailableSlots = 20 - BookedSlots},
+                new GymSession { Id = 8, Name = "Core", TimeOfDay = startTime[14], Minutes = 60, Category = categories[1], AvailableSlots = 10 - BookedSlots},
+                new GymSession { Id = 9, Name = "Step", TimeOfDay = startTime[16], Minutes = 45, Category = categories[1], AvailableSlots = 15 - BookedSlots},
+                new GymSession { Id = 10, Name = "Spinning", TimeOfDay = startTime[23], Minutes = 45, Category = categories[0], AvailableSlots = 10 - BookedSlots},
+                new GymSession { Id = 11, Name = "PT", TimeOfDay = startTime[19], Minutes = 90, Category = categories[3], AvailableSlots = 1 - BookedSlots},
+                new GymSession { Id = 12, Name = "Spinning, intensiv", TimeOfDay = startTime[25], Minutes = 45, Category = categories[0], AvailableSlots = 20 - BookedSlots},
+                new GymSession { Id = 13, Name = "Yoga", TimeOfDay = startTime[26], Minutes = 50, Category = categories[2], AvailableSlots = 15 - BookedSlots},
+                new GymSession { Id = 14, Name = "Gympa", TimeOfDay = startTime[25], Minutes = 60, Category = categories[1], AvailableSlots = 25 - BookedSlots},
+                new GymSession { Id = 15, Name = "Skivstång -Lätt", TimeOfDay = startTime[20], Minutes = 45, Category = categories[3], AvailableSlots = 20 - BookedSlots},
+                new GymSession { Id = 15, Name = "Skivstång", TimeOfDay = startTime[20], Minutes = 45, Category = categories[3], AvailableSlots = 20 - BookedSlots}
             };
 
             BookedSessions = new ObservableCollection<GymSession>();
@@ -104,12 +119,6 @@ namespace Labb3
                 BookedSessions.Add(session);
                 OnPropertyChanged("BookedSessions");
             }
-            //else
-            //{
-            //    session.AddParticipant(user);
-            //    BookedSessions.Add(session);
-            //    OnPropertyChanged("BookedSessions");
-            //}
         }
 
         public void CancelSession(GymSession session, User user)

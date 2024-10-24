@@ -1,60 +1,92 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-   
-        xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Labb3.MainWindow" 
-        Title="Gymbokning" Height="450" Width="800">
-   
-    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:av="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="av" 
+    x:Class="Labb3.MainWindow" 
+    Title="Gymbokning" Height="450" Width="800">
+
+
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/Images/gym.jpg" Stretch="Fill"/>
+            <ImageBrush ImageSource="/Images/gym.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
 
+        <!-- HEADER -->
         <Border Background="#FF1B311C" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="100" Margin="0,0,0,5" Padding="10,0,10,0">
             <Grid>
                 <TextBlock FontSize="24" FontFamily="Candara Light" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Text="LYFTSPRINGSTRETCHOSV"/></TextBlock>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                     <Button Content="Mina pass" Click="ShowBookings_Button" HorizontalAlignment="Center" VerticalAlignment="Center"  />
                 </StackPanel>
-
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock x:Name="UserName" 
-               FontSize="20" 
-               FontFamily="Candara Light" 
-               Foreground="White" 
-               Margin="0,16,0,0" 
-               HorizontalAlignment="Center" 
-               VerticalAlignment="Top"
-               Visibility="Collapsed">
-        <Run Text="{Binding CurrentUser.Name}"/> 
-        <Run Text="s bokade pass"/>
+                               FontSize="20" 
+                               FontFamily="Candara Light" 
+                               Foreground="White" 
+                               Margin="0,16,0,0" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Top"
+                               Visibility="Collapsed">
+                        <Run Text="{Binding CurrentUser.Name}"/> 
+                        <Run Text="s bokade pass"/>
                     </TextBlock>
                 </StackPanel>
-
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <Button x:Name="ResetSearchButton" Content="Återgå till alla pass" Click="ResetSearch_Button" VerticalAlignment="Center" Margin="0,0,5,0" Visibility="Collapsed"/>
+                    <Button x:Name="ResetSearchButton" Content="Återgå till alla pass" Click="ResetSearch_Button" Visibility="Collapsed" Padding="20,10,15,20"/>
                     <TextBox x:Name="SearchInput" Width="150" VerticalAlignment="Center" Height="25" KeyDown="SearchInput_KeyDown"/>
                     <Button Content="Sök" Click="Search_Button" Width="50" VerticalAlignment="Center" BorderThickness="0" />
                 </StackPanel>
             </Grid>
         </Border>
-
+        
+        <!-- MAIN -->
         <Grid Margin="10,120,10,10" Opacity="0.95">
-            <!-- ListView för tillgängliga pass -->
-            <ListView x:Name="AvailableSessionsList" ItemsSource="{Binding AvailableSessions}" av:ItemsSource="{av:SampleData ItemCount=5}" Foreground="#FF042271" HorizontalAlignment="Center">
+            
+            <!-- tillgängliga pass -->
+            <ListView x:Name="AvailableSessionsList" 
+                      ItemsSource="{Binding AvailableSessions}" 
+                      AlternationCount="2" 
+                      HorizontalAlignment="Center" Foreground="#FF04711A">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Passnamn" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                        <GridViewColumn Header="Kategori" DisplayMemberBinding="{Binding Category.Name}" Width="100"/>
+                        <GridViewColumn Header="Passnamn" Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" 
+                                               Foreground="#FF04712E" 
+                                               Cursor="Hand" 
+                                               MouseDown="More_Info" 
+                                               Tag="{Binding}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                        <GridViewColumn Header="Starttid" DisplayMemberBinding="{Binding TimeOfDay, StringFormat={}{0:hh\\:mm}}" Width="100"/>
-                        <GridViewColumn Header="Längd (min)" DisplayMemberBinding="{Binding Minutes}" Width="100"/>
+                        <GridViewColumn Header="Starttid" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding TimeOfDay, StringFormat={}{0:hh\\:mm}}"  Margin="50,0,0,0"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Längd (min)" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Minutes}" Margin="50,0,0,0"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
                         <GridViewColumn Header="Boka" Width="120" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate >
                                     <Button Content="Boka pass" Click="Book_Button" Tag="{Binding}" Background="#FF68845E" FontFamily="Calibri" Foreground="#FFF7FFF7" HorizontalAlignment="Center" VerticalAlignment="Center" />
-
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -63,12 +95,29 @@
             </ListView>
 
             <!-- Bokade pass -->
-            <ListView x:Name="BookedSessionsList" ItemsSource="{Binding BookedSessions}"  Visibility="Collapsed" HorizontalAlignment="Center">
+            <ListView x:Name="BookedSessionsList" ItemsSource="{Binding BookedSessions}"   AlternationCount="2" Visibility="Collapsed" HorizontalAlignment="Center">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Passnamn" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                        <GridViewColumn Header="Starttid" DisplayMemberBinding="{Binding TimeOfDay, StringFormat={}{0:hh\\:mm}}" Width="100"/>
-                        <GridViewColumn Header="Längd (min)" DisplayMemberBinding="{Binding Minutes}" Width="100"/>
+                        <GridViewColumn Header="Starttid" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding TimeOfDay, StringFormat={}{0:hh\\:mm}}"  Margin="50,0,0,0"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Längd (min)" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Minutes}" Margin="50,0,0,0"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Header="Avboka" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
