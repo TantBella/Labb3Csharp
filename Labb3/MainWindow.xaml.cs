@@ -154,7 +154,7 @@ namespace Labb3
                                  $"Kategori: {session.Category.Name}\n" +
                                  $"Starttid: {session.TimeOfDay:hh\\:mm}\n" +
                                  $"Längd: {session.Minutes} minuter\n" +
-                                 $"Tillgängliga platser: {session.AvailableSlots}\n" +
+                                 $"Tillgängliga platser: {session.NoAvailableSlots}\n" +
                                  $"Vill du boka passet?";
 
                 MessageBoxResult result = MessageBox.Show(message, "Passinformation", MessageBoxButton.YesNo);

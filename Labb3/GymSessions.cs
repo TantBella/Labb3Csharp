@@ -147,6 +147,16 @@ namespace Labb3
                 {
                     _availableSlots = value;
                     OnPropertyChanged("AvailableSlots");
+                    OnPropertyChanged("NoAvailableSlots");
+                }
+            }
+
+            //om gympasset är fullbokat skrivs det ut fullbokad på mer info, annars antal lediga platser
+            public string NoAvailableSlots
+            {
+                get
+                {
+                    return IsFull ? "Fullbokad" : AvailableSlots.ToString();
                 }
             }
 
@@ -187,8 +197,7 @@ namespace Labb3
             public void CancelSlot()
             {
                     AvailableSlots++;
-                    OnPropertyChanged("ButtonContent");
-                
+                    OnPropertyChanged("ButtonContent");                
             }
 
             public void AddParticipant(User user)
