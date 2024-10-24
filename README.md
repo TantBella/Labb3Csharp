@@ -1,5 +1,12 @@
 # Labb 3, Bokningsapplikation med WPF
 
+![Bild på startsidan](https://github.com/TantBella/Labb3Csharp/blob/main/gym_start.png)
+![Bild på sökresultat](https://github.com/TantBella/Labb3Csharp/blob/main/search_result.png)
+![Bild på mer info om ett specifikt pass](https://github.com/TantBella/Labb3Csharp/blob/main/more_info.png)
+![Bild på "mina sidor" med bokade pass](https://github.com/TantBella/Labb3Csharp/blob/main/my_pages.png)
+
+
+
 ## Del 1: Kravspecifikation
 Du ska skapa en bokningshanteringsapplikation för ett gym som tillåter användare
 att:
