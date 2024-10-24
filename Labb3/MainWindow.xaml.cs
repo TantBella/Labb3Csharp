@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using static Labb3.GymSessions;
 
@@ -39,10 +40,43 @@ namespace Labb3
             }
         }
 
-
         public void Search_Button(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Sök-knappen klickades.");
+            string searchInput = SearchInput.Text; 
+            if (string.IsNullOrWhiteSpace(searchInput))
+            {
+                var gymSessions = ((GymSessions)DataContext).AvailableSessions;
+                AvailableSessionsList.ItemsSource = gymSessions;
+                ResetSearchButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                GymSearch searcher = new GymSearch();
+                var searchResult = searcher.SearchSessions(((GymSessions)DataContext).AvailableSessions, searchInput);
+
+                AvailableSessionsList.ItemsSource = searchResult;
+                //MessageBox.Show($"Sökningen hittade {searchResult.Count()} pass.");
+                ResetSearchButton.Visibility = searchResult.Any() ? Visibility.Visible : Visibility.Collapsed;
+
+            }
+        }
+
+        private void SearchInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Search_Button(sender, e);
+            }
+        }
+
+
+        public void ResetSearch_Button(object sender, RoutedEventArgs e)
+        {
+            SearchInput.Text = string.Empty;
+
+            var gymSessions = ((GymSessions)DataContext).AvailableSessions;
+            AvailableSessionsList.ItemsSource = gymSessions;
+            ResetSearchButton.Visibility = Visibility.Collapsed;
         }
 
         private void Book_Button(object sender, RoutedEventArgs e)
@@ -54,7 +88,6 @@ namespace Labb3
             {
                 if (!session.IsBooked)
                 {
-                    // Try to book the session
                     ((GymSessions)DataContext).BookSession(session, currentUser);
 
                     if (!session.IsFull)
